@@ -1,15 +1,15 @@
-# Projet de Visualisation du Marathon
+# Projet de Visualisation du Marathon de Berlin
 
 ## Vue d'ensemble
 
-Ce projet propose des visualisations interactives des données de marathon à l'aide de Plotly. Il permet aux utilisateurs d'explorer les statistiques des marathons, y compris les classements, les temps et les informations démographiques, de 1999 à 2023. Les visualisations sont dynamiques et personnalisables en fonction des filtres sélectionnés par l'utilisateur, tels que le genre, la catégorie d'âge et les coureurs spécifiques.
+Ce projet propose des visualisations interactives des données du Marathon de Berlin à l'aide de Dash et Plotly. Il permet d'explorer les performances des coureurs, les répartitions par sexe et nationalité, ainsi que les tendances sur plusieurs années. Les utilisateurs peuvent interagir avec les graphiques pour filtrer les données et obtenir des informations détaillées.
 
 ## Fonctionnalités
 
-- **Graphiques interactifs** : Visualisez les classements et statistiques des marathons avec des graphiques interactifs.
-- **Filtres** : Filtrez les données par genre, catégorie d'âge ou coureurs spécifiques.
-- **Statistiques des coureurs** : Consultez des statistiques détaillées et l'historique des performances pour les coureurs sélectionnés.
-- **Disposition dynamique** : La mise en page s'adapte en fonction des filtres sélectionnés et des données disponibles.
+- **Visualisation 1** : Analyse l'évolution des performances en fonctions des performances météo avec des graphes indéxés
+- **Visualisation 2** : Dashboard interactif pour explorer les répartitions par sexe et nationalité en fonction des temps d'arrivée.
+- **Visualisation 3** : Évolution des nationalités dans le top 10 du marathon, avec des filtres par genre et catégorie d'âge.
+- **Interactivité** : Sélectionnez des plages de temps ou des coureurs spécifiques pour afficher des détails personnalisés.
 
 ## Installation
 
@@ -28,41 +28,30 @@ Ce projet propose des visualisations interactives des données de marathon à l'
 
 ## Utilisation
 
-1. Assurez-vous que les fichiers de données requis (`marathon_df`, `years`) sont disponibles dans le module `data`.
-2. Exécutez le script de visualisation :
+1. Assurez-vous que les fichiers de données nécessaires (`marathon_df`, `years`) sont disponibles dans le module `data`.
+2. Lancez l'application Dash :
    ```bash
-   python visualizations_3.py
+   python server.py
    ```
-3. Utilisez l'interface interactive pour explorer les données :
-   - Sélectionnez le genre (`ALL`, `M`, `W`).
-   - Choisissez une catégorie d'âge ou affichez toutes les catégories.
-   - Cliquez sur un coureur pour voir ses statistiques détaillées et son historique de performances.
+3. Ouvrez votre navigateur et accédez à `http://localhost:8050` pour interagir avec le tableau de bord.
 
 ## Structure des fichiers
 
-- `visualizations_3.py` : Script principal pour générer les visualisations du marathon.
-- `preprocess.py` : Contient les fonctions de prétraitement des données.
-- `layout_vis3.py` : Gère la configuration de la mise en page des visualisations.
+- `app.py` : Contient la logique principale de l'application Dash.
+- `server.py` : Configure et exécute le serveur Flask pour l'application.
+- `visualizations_1.py`, `visualizations_2.py`, `visualizations_3.py` : Scripts pour générer les différentes visualisations.
+- `preprocess.py` : Fonctions de prétraitement des données.
+- `layout_vis3.py` : Configure la mise en page pour la visualisation 3.
 - `data/` : Répertoire contenant les fichiers de données du marathon.
 
 ## Dépendances
 
-- Python 3.x
+- Python 3.8 ou supérieur
+- Dash
 - Plotly
 - Pandas
 - NumPy
 
-## Contribution
-
-Les contributions sont les bienvenues ! Veuillez suivre ces étapes :
-
-1. Forkez le dépôt.
-2. Créez une nouvelle branche pour votre fonctionnalité ou correction de bug :
-   ```bash
-   git checkout -b nom-de-la-fonctionnalite
-   ```
-3. Validez vos modifications et poussez-les sur votre fork.
-4. Soumettez une pull request.
 
 ## Licence
 
@@ -71,4 +60,4 @@ Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus de dét
 ## Remerciements
 
 - Données du marathon fournies par [source/organisation].
-- Visualisation réalisée avec [Plotly](https://plotly.com/).
+- Visualisations réalisées avec [Plotly](https://plotly.com/).
