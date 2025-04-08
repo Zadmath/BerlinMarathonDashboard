@@ -24,33 +24,113 @@ import preprocess
 app = dash.Dash(__name__)
 app.title = 'Project | INF8808'
 
+# Ajout de styles CSS globaux
+app.css.append_css({
+    "external_url": "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+})
 
 # Layout de l'application
 app.layout = html.Div([
-    html.H1("Dashboard Marathon de Berlin", style={"text-align": "center"}),
+    html.Div([
+        # Ajout du logo avec fond blanc collé au titre
+        html.Img(
+            src="./assets/images/logo_dashboard.png",
+            style={
+                "background-color": "white",
+                "padding": "10px",
+                "border-radius": "8px",
+                "width": "200px",
+                "height": "auto",
+                "margin-right": "10px",  # Espacement entre le logo et le titre
+                "vertical-align": "middle"
+            }
+        ),
+        html.H1(
+            "Dashboard Marathon de Berlin",
+            style={
+                "display": "inline-block",
+                "vertical-align": "middle",
+                "margin-bottom": "20px",
+                "animation": "fadeInDown 1s"
+            }
+        )
+    ], style={"text-align": "center"}),
+
+    # Phrase explicative
+    html.P(
+        "Explorez les données du Marathon de Berlin (1999-2023) à travers des visualisations interactives. "
+        "Sélectionnez des plages de temps, des catégories ou des genres pour analyser les performances des coureurs.",
+        style={
+            "text-align": "center",
+            "font-size": "16px",
+            "margin-bottom": "30px",
+            "color": "#555",
+            "animation": "fadeInUp 1s"
+        }
+    ),
 
     # Conteneur pour VISUALISATION 1 et VISUALISATION 2 côte à côte
     html.Div([
         html.Div([
-            html.H3("Visualisation 1"),
-            dcc.Graph(id="vis1-line-chart", style={"height": "300px"}),
-            dcc.Graph(id="vis1-bar1", style={"height": "200px"}),
-            dcc.Graph(id="vis1-bar2", style={"height": "200px"})
-        ], style={"flex": "1", "padding": "10px"}),
+            html.H3("Visualisation 1", style={"text-align": "center", "color": "#333"}),
+            dcc.Graph(
+                id="vis1-line-chart",
+                style={
+                    "height": "300px",
+                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    "border-radius": "8px",
+                }
+            ),
+            dcc.Graph(
+                id="vis1-bar1",
+                style={
+                    "height": "200px",
+                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    "border-radius": "8px",
+                }
+            ),
+            dcc.Graph(
+                id="vis1-bar2",
+                style={
+                    "height": "200px",
+                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    "border-radius": "8px",
+                }
+            )
+        ], style={"flex": "1", "padding": "20px", "background-color": "#f9f9f9", "border-radius": "10px", "margin-right": "10px"}),
 
-    html.Div([
-            html.H3("Visualisation 2"),
-            dcc.Graph(id="vis2", figure=create_dashboard(), style={"height": "700px"})
-        ], style={"flex": "1", "padding": "10px"}),
-    ], style={"display": "flex", "flex-direction": "row", "width": "100%"}),
-
+        html.Div([
+            html.H3("Visualisation 2", style={"text-align": "center", "color": "#333"}),
+            dcc.Graph(
+                id="vis2",
+                figure=create_dashboard(),
+                style={
+                    "height": "900px",
+                    "box-shadow": "3px 4px 3px rgba(0, 0, 0, 0.1)",
+                    "border-radius": "8px",
+                    "margin": "0 auto"  # Centrer la visualisation horizontalement
+                }
+            )
+        ], style={
+            "flex": "1",
+            "padding": "20px",
+            "background-color": "#f9f9f9",
+            "border-radius": "8px",
+            "margin-left": "5px",
+            "display": "flex",
+            "flex-direction": "column",
+            "align-items": "center",  # Centrer le contenu verticalement
+            "margin-bottom": "0px"  # Réduire l'espace en dessous
+        }),
+    ], style={"display": "flex", "flex-direction": "row", "width": "100%", "margin-bottom": "10px"}),
 
     # VISUALISATION 3 : Graphique des nationalités du marathon
     html.Div([
-        html.H3("Évolution des Nationalités dans le Top 10 du Marathon de Berlin (1999-2023)"),
-    
-        # Sélecteur pour filtrer par sexe
-        html.Label("Sélectionnez le genre :"),
+        html.H3(
+            "Évolution des Nationalités dans le Top 10 du Marathon de Berlin (1999-2023)",
+            style={"text-align": "center", "color": "#333", "margin-bottom": "20px"}
+        ),
+        html.Label("Sélectionnez le genre :", style={"font-weight": "bold", "margin-bottom": "5px"}),
         dcc.Dropdown(
             id="gender-dropdown",
             options=[
@@ -59,11 +139,10 @@ app.layout = html.Div([
                 {"label": "Femmes", "value": "W"}
             ],
             value="ALL",  # Valeur par défaut
-            clearable=True,
-            style={"width": "50%", "margin-bottom": "10px"}
+            style={"width": "90%", "margin-bottom": "20px", "box-shadow": "0px 2px 4px rgba(0, 0, 0, 0.1)", "border-radius": "5px"}
         ),
-            #Filter par catégorie 
-            html.Label("Sélectionnez la catégorie d'âge:"),
+
+        html.Label("Sélectionnez la catégorie d'âge :", style={"font-weight": "bold", "margin-bottom": "5px"}),
         dcc.Dropdown(
             id="category-dropdown",
             options=[
@@ -82,32 +161,58 @@ app.layout = html.Div([
                 {"label": "75", "value": "75"},
                 {"label": "80", "value": "80"}
             ],
-                value="ALL",  # Valeur par défaut
-                clearable=False,
-                style={"width": "50%", "margin-bottom": "10px"}
+            value="ALL",  # Valeur par défaut
+            clearable=False,
+            style={"width": "90%", "margin-bottom": "20px", "box-shadow": "0px 2px 4px rgba(0, 0, 0, 0.1)", "border-radius": "5px"}
         ),
-            
-    
-        # Ajout d'une légende manuelle
+
+        # Légende centrée
         html.Div([
             html.Span("● Hommes", style={"color": "blue", "font-size": "16px", "margin-right": "20px"}),
             html.Span("● Femmes", style={"color": "red", "font-size": "16px"}),
-        ], style={"margin-bottom": "10px"}),
+        ], style={"margin-bottom": "20px", "text-align": "center"}),
 
-        # Graphique et bouton dans le même div
+        # Graphique et bouton
         html.Div([
-            html.Div(id="selected-runner-info", style={"marginTop": "10px", "fontWeight": "bold"}),
-            html.Button("Désélectionner le coureur", id="deselect-button", n_clicks=0, style={"margin-bottom": "14px"}),
+            html.Div(id="selected-runner-info", style={"marginTop": "10px", "fontWeight": "bold", "margin-bottom": "10px"}),
+            html.Button(
+                "Désélectionner le coureur",
+                id="deselect-button",
+                n_clicks=0,
+                style={
+                    "margin-bottom": "14px",
+                    "background-color": "#007BFF",
+                    "color": "white",
+                    "border": "none",
+                    "border-radius": "5px",
+                    "padding": "10px 20px",
+                    "cursor": "pointer",
+                    "transition": "background-color 0.3s, transform 0.3s",
+                },
+                className="hover-button"
+            ),
             dcc.Graph(
                 id="matrix-chart",
                 config={"displayModeBar": True},
                 clear_on_unhover=True,
                 clickData=None,
                 figure=generate_marathon_chart("ALL", None, "ALL"),
-                style={"height": "70vh", "width": "100%"}
+                style={
+                    "height": "70vh",
+                    "width": "100%",
+                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                    "border-radius": "8px",
+                }
             )
         ], style={"width": "100%", "display": "flex", "flex-direction": "column", "align-items": "center"})
-    ], style={"width": "100%", "padding": "20px"})
+    ], style={
+        "padding": "20px",
+        "background-color": "#f9f9f9",
+        "border-radius": "10px",
+        "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+        "margin-bottom": "20px",
+        "width": "100%"
+    })
 ])
 
 
@@ -123,13 +228,13 @@ def update_vis1(selected_gender):
 
 @app.callback(
     Output("vis2", "figure"),
-    [Input("vis2", "selectedData")],
+    [Input("vis2", "selectedData") , Input("vis2", "figure")],
     prevent_initial_call=True
+
 )
-def update_vis2_from_selection(selectedData):
+def update_vis2_from_selection(selectedData, fig):
     # Vérifier si selectedData et selectedData["points"] sont valides
     if selectedData and "points" in selectedData and len(selectedData["points"]) > 0:
-        fig = create_dashboard()  # Créez la figure initiale uniquement si nécessaire
         return update_plots(None, selectedData["points"], None, fig)
     return dash.no_update 
 

@@ -1,0 +1,10 @@
+/* Animation pour les boutons */
+.hover-button:hover {
+    background-color: #0056b3;
+    transform: scale(1.05);
+}
+
+/* Supprimé : Animation pour les graphiques */
+/* .hover-scale:hover {
+    transform: scale(1.02);
+} */

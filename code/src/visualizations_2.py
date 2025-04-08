@@ -11,6 +11,10 @@ from data import df, initial_sex_values, initial_nation_counts, time_counts, tim
 
 
 def update_plots(trace, points, selector, fig):
+    # Vérifier si fig est un dictionnaire et le convertir en Figure si nécessaire
+    if isinstance(fig, dict):
+        fig = go.Figure(fig)
+
     # Vérifier si des points ont été sélectionnés
     if not points or not isinstance(points, list) or len(points) == 0:
         return fig
@@ -44,46 +48,77 @@ def update_plots(trace, points, selector, fig):
         hovertext=hover_texts,
         selector=dict(type='pie')
     )
-    
 
     # Mettre à jour le bar chart (nationalités)
-    # Mettre à jour le bar chart (nationalités)
     nation_counts = selected_df['nation'].value_counts().head(15)
-    selector=dict(type='bar', row=2, col=2)
     if nation_counts.empty:
         # Si aucune donnée n'est disponible, afficher un message par défaut
         fig.update_traces(
             x=["Aucune donnée"],
             y=[0],
             hovertemplate='Aucune donnée disponible<extra></extra>',
-            selector=dict(type='bar', row=2, col=2)  # Assurez-vous que le selector correspond à la trace
+            selector=dict(type='bar', row=2, col=2)
         )
     else:
         # Mettre à jour les données des nationalités
         fig.update_traces(
-    x=nation_counts.index,
-    y=nation_counts.values,
-    hovertemplate='%{x}: %{y} coureurs<extra></extra>',
-    selector=lambda trace: trace.customdata and trace.customdata[0] == "nationality"
-)
+            x=nation_counts.index,
+            y=nation_counts.values,
+            hovertemplate='%{x}: %{y} coureurs<extra></extra>',
+            selector=lambda trace: trace.customdata and trace.customdata[0] == "nationality"
+        )
+
     # Mettre à jour le titre avec le nombre de coureurs sélectionnés
     selection_count = len(selected_df)
     formatted_times = [str(td).split('.')[0] for td in selected_times]
-    #on enleve le days
     formatted_times = [time.split(' ')[2] for time in formatted_times]
     time_range = f"{formatted_times[0]} - {formatted_times[-1]}"
 
+    # Supprimer explicitement toutes les annotations existantes
+    fig.layout.annotations = []
 
-    # Supprimer les annotations existantes
-    fig.update_layout(annotations=[])
-
-    # Ajouter une nouvelle annotation
+    # Ajouter une nouvelle annotation avec une position ajustée
     fig.add_annotation(
         xref="paper", yref="paper",
-        x=0.5, y=1.07,
+        x=0.5, y=1.0,  # Ajustement de la position verticale pour éviter la superposition
         showarrow=False,
         text=f"Sélection: {time_range} - {selection_count} coureurs",
+        bgcolor="white",
+        bordercolor="black",
         font=dict(size=16)
+    )
+    
+    # on ajoute les titres du pie chart et du bar chart
+    fig.add_annotation(
+        xref="paper", yref="paper",
+        x=0.15, y=-0.05,
+        showarrow=False,
+        text="Répartition par sexe",
+        font=dict(size=16)
+    )
+    
+    fig.add_annotation(
+        xref="paper", yref="paper",
+        x=0.85, y=0.35,
+        showarrow=False,
+        text="Top nationalités",
+        font=dict(size=16)
+    )
+    
+    # Mettre à jour le titre bar chart de distribution des temps d'arrivée
+    fig.add_annotation(
+        xref="paper", yref="paper",
+        x=0.5, y=1.05,
+        showarrow=False,
+        text="Distribution des temps d'arrivée",
+        font=dict(size=16)
+    )
+        # Verrouiller les dimensions des graphiques pour éviter les changements de taille
+    fig.update_layout(
+        autosize=False,
+        height=800,
+        width=1000,
+        margin=dict(t=100, b=50, l=50, r=50)  # Maintenir les marges constantes
     )
     return fig
 
@@ -109,7 +144,7 @@ def create_dashboard():
         subplot_titles=("Distribution des temps d'arrivée", 
                         "Répartition par sexe", 
                         "Top nationalités"),
-        vertical_spacing=0.15,
+        vertical_spacing=0.20,
         horizontal_spacing=0.1,
         row_heights=[0.6, 0.4]
     )
@@ -179,6 +214,23 @@ def create_dashboard():
         textposition='auto',
         customdata=["nationality"] * len(initial_nation_counts)  # Ajout clé
     ), row=2, col=2)
+
+    # Désactiver la sélection sur le graphique des nationalités
+    fig.update_traces(
+        selector=dict(type='bar', row=2, col=2),
+        marker=dict(opacity=0.8),
+        hoverinfo='x+y',
+        selectedpoints=None  # Désactiver la sélection
+    )
+    
+
+    # Verrouiller les dimensions des graphiques pour éviter les changements de taille
+    fig.update_layout(
+        autosize=False,
+        height=800,
+        width=1000,
+        margin=dict(t=100, b=50, l=50, r=50)  # Maintenir les marges constantes
+    )
 
     fig.update_xaxes(title_text="Nationalité", tickangle=45, row=2, col=2)
     fig.update_yaxes(title_text="Nombre de coureurs", row=2, col=2)
