@@ -237,9 +237,9 @@ def render_tab_content(tab):
     [Output("vis1-line-chart", "figure"),
      Output("vis1-bar1", "figure"),
      Output("vis1-bar2", "figure")],
-    []
+    [Input("gender-dropdown", "value")]
 )
-def update_vis1():
+def update_vis1(selected_gender):
     return generate_vis1()
 
 @app.callback(
