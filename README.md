@@ -59,5 +59,5 @@ Ce projet est sous licence MIT. Consultez le fichier `LICENSE` pour plus de dét
 
 ## Remerciements
 
-- Données du marathon fournies par [source/organisation].
+- Données du marathon fournies par [bmw-berlin-marathon.com].
 - Visualisations réalisées avec [Plotly](https://plotly.com/).
