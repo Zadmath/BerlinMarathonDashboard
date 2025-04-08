@@ -6,7 +6,7 @@ def configure_layout(fig, nations_sorted, years, times_text, runner_statistics, 
             dict(
                 text=times_text,
                 xref="paper", yref="paper",
-                x=0.50, y=1.15,  # Position above the title
+                x=0.480, y=1.15,  # Position above the title
                 showarrow=False,
                 align="center",
                 bgcolor="white",
