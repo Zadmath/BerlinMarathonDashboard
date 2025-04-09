@@ -25,22 +25,18 @@ import pandas as pd
 import preprocess
 
 # Initialisation de l'application Dash
-app = dash.Dash(__name__)  
+external_stylesheets = [
+    "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
+]
+
+app = dash.Dash(__name__, external_stylesheets=external_stylesheets)
+
 app.title = 'Project | INF8808'
 app.layout = html.Div([
     html.H1("Dashboard Berlin")
 ])
 
-if __name__ == '__main__':
-    import os
-    port = int(os.environ.get("PORT", 8050))
-    app.run_server(debug=False, host='0.0.0.0', port=port)
 
-
-# Ajout de styles CSS globaux
-app.css.append_css({
-    "external_url": "https://cdnjs.cloudflare.com/ajax/libs/animate.css/4.1.1/animate.min.css"
-})
 
 # Layout de l'application
 app.layout = html.Div([
@@ -295,3 +291,8 @@ def deselect_runner(n_clicks):
     if n_clicks > 0:
         return None
     return dash.no_update
+
+
+if __name__ == '__main__':
+    port = int(os.environ.get("PORT", 8050))
+    app.run_server(debug=False, host='0.0.0.0', port=port)
