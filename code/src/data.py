@@ -6,7 +6,7 @@ import preprocess
 abbreviation_df = pd.read_csv('./code/src/assets/data/abbreviations.csv')
 abbreviation_dict = dict(zip(abbreviation_df['Abbreviation'], abbreviation_df['Country']))
 
-with open('./code/src/assets/data/MyBerlin_light.csv', encoding='latin1') as data_file:
+with open('./code/src/assets/data/MyBerlinTop10.csv', encoding='latin1') as data_file:
     marathon_df = pd.read_csv(data_file, low_memory=False)
 
 # Garde uniquement les colonnes utiles
@@ -69,3 +69,5 @@ time_counts = df['tps_fin_rounded'].value_counts().sort_index()
     
 # Convertir les index en chaînes de caractères pour l'affichage
 time_labels = [str(td).split('.')[0] for td in time_counts.index]
+
+
