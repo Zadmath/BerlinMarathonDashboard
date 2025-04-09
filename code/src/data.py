@@ -13,8 +13,8 @@ with open('./code/src/assets/data/MyBerlin_light.csv', encoding='latin1') as dat
 cols_to_keep = ["year", "sex", "nation", "tps_fin", "nom", "prenom", "place", "class_age"]
 df = marathon_df[cols_to_keep]
 
-# Enregistre un fichier allégé
-df.to_csv("MyBerlin_light.csv", index=False)
+# # Enregistre un fichier allégé
+# df.to_csv("MyBerlin_light.csv", index=False)
 marathon_df_0 = preprocess.uniformiser(marathon_df)
 print(f"Memory used: {marathon_df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
 
