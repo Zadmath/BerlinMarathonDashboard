@@ -6,9 +6,15 @@ import preprocess
 abbreviation_df = pd.read_csv('./code/src/assets/data/abbreviations.csv')
 abbreviation_dict = dict(zip(abbreviation_df['Abbreviation'], abbreviation_df['Country']))
 
-with open('./code/src/assets/data/MyBerlin_1999-2023.csv', encoding='latin1') as data_file:
+with open('./code/src/assets/data/MyBerlin_light.csv', encoding='latin1') as data_file:
     marathon_df = pd.read_csv(data_file, low_memory=False)
 
+# Garde uniquement les colonnes utiles
+cols_to_keep = ["year", "sex", "nation", "tps_fin", "nom", "prenom", "place", "class_age"]
+df = marathon_df[cols_to_keep]
+
+# Enregistre un fichier allégé
+df.to_csv("MyBerlin_light.csv", index=False)
 marathon_df_0 = preprocess.uniformiser(marathon_df)
 print(f"Memory used: {marathon_df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
 
