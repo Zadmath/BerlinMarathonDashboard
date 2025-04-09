@@ -3,10 +3,10 @@ import numpy as np
 import preprocess
 
 # Load the country abbreviation data
-abbreviation_df = pd.read_csv('./src/assets/data/abbreviations.csv')
+abbreviation_df = pd.read_csv('./code/src/assets/data/abbreviations.csv')
 abbreviation_dict = dict(zip(abbreviation_df['Abbreviation'], abbreviation_df['Country']))
 
-with open('./src/assets/data/MyBerlin_1999-2023.csv', encoding='latin1') as data_file:
+with open('./code/src/assets/data/MyBerlin_1999-2023.csv', encoding='latin1') as data_file:
     marathon_df = pd.read_csv(data_file, low_memory=False)
 
 marathon_df_0 = preprocess.uniformiser(marathon_df)
