@@ -25,8 +25,17 @@ import pandas as pd
 import preprocess
 
 # Initialisation de l'application Dash
-app = dash.Dash(__name__)
+app = dash.Dash(__name__)  
 app.title = 'Project | INF8808'
+app.layout = html.Div([
+    html.H1("Dashboard Berlin")
+])
+
+if __name__ == '__main__':
+    import os
+    port = int(os.environ.get("PORT", 8050))
+    app.run_server(debug=False, host='0.0.0.0', port=port)
+
 
 # Ajout de styles CSS globaux
 app.css.append_css({
