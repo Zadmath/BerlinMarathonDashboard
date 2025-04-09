@@ -8,10 +8,9 @@
 
     This file contains the source code for TP4.
 '''
-import os
 import sys
-# Ajout du répertoire src au chemin d'importation
-sys.path.append(os.path.join(os.path.dirname(__file__), 'src'))
+import os
+sys.path.append(os.path.dirname(__file__))
 
 import json
 
