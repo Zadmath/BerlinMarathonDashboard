@@ -10,6 +10,7 @@ with open('./code/src/assets/data/MyBerlin_1999-2023.csv', encoding='latin1') as
     marathon_df = pd.read_csv(data_file, low_memory=False)
 
 marathon_df_0 = preprocess.uniformiser(marathon_df)
+print(f"Memory used: {marathon_df.memory_usage(deep=True).sum() / 1024**2:.2f} MB")
 
 # Update the 'nation' column using the abbreviation dictionary
 marathon_df_0['nation'] = marathon_df_0['nation'].map(abbreviation_dict).fillna(marathon_df_0['nation'])
