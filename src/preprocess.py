@@ -14,8 +14,6 @@ def uniformiser(my_df):
     # Ajouter une colonne pour différencier hommes et femmes
     my_df["gender"] = my_df["sex"].str.upper()
 
-
-
     return my_df
     
 
@@ -165,3 +163,28 @@ def preprocess_meteo(df_meteo):
     df_Preci[2022]=[0]
     df_Preci[2023]=[0]
     return df_avgTemp,df_Preci
+
+def save_top_10_csvs(my_df, output_dir="./top_10_csvs"):
+    """
+    Generate and save CSV files for the top 10 runners by year, gender, and category.
+
+    Args:
+        my_df (pd.DataFrame): The preprocessed marathon DataFrame.
+        output_dir (str): The directory where the CSV files will be saved.
+    """
+    import os
+
+    # Ensure the output directory exists
+    os.makedirs(output_dir, exist_ok=True)
+
+    # Group by year, gender, and category
+    grouped = my_df.groupby(["year", "gender", "class_age"], group_keys=False)
+
+    # Iterate through each group and save the top 10 to a CSV
+    for (year, gender, class_age), group in grouped:
+        top_10 = group.nsmallest(10, "place")
+        filename = f"{output_dir}/top_10_{year}_{gender}_{class_age}.csv"
+        top_10.to_csv(filename, index=False)
+        print(f"Saved: {filename}")
+
+# Example usage (uncomment to run):

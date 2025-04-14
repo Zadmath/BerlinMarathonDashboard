@@ -1,0 +1,11 @@
+year,sex,nation,tps_fin,nom,prenom,place,class_age,gender,tps_fin_p,tps_fin_rounded
+2000,M,Norway,0 days 02:37:48,Odfjell,Aage,102,50,M,9468.0,0 days 02:30:00
+2000,M,France,0 days 02:46:09,Lafargue,Dominique,240,50,M,9969.0,0 days 02:40:00
+2000,M,Denmark,0 days 02:47:59,Andersen,Rasmus,279,50,M,10079.0,0 days 02:40:00
+2000,M,Switzerland,0 days 02:50:50,Daeppen,Rene,360,50,M,10250.0,0 days 02:50:00
+2000,M,France,0 days 02:52:42,Gherardi,Bernard,419,50,M,10362.0,0 days 02:50:00
+2000,M,Germany,0 days 02:53:02,Kopp,Dieter,434,50,M,10382.0,0 days 02:50:00
+2000,M,Italy,0 days 02:53:17,Cavasin,Gianfranco,443,50,M,10397.0,0 days 02:50:00
+2000,M,Germany,0 days 02:53:18,Wagnitz,Horst,444,50,M,10398.0,0 days 02:50:00
+2000,M,Germany,0 days 02:53:30,Ehling,Uwe,452,50,M,10410.0,0 days 02:50:00
+2000,M,Finland,0 days 02:53:38,Saastamoinen,Risto,458,50,M,10418.0,0 days 02:50:00

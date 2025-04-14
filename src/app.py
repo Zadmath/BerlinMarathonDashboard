@@ -128,7 +128,7 @@ app.layout = html.Div([
     # Conteneur pour VISUALISATION 1 et VISUALISATION 2 côte à côte
     html.Div([
         html.Div([
-            html.H3("Visualisation 1", style={"text-align": "center", "color": "#333"}),
+            html.H3("Évolution du temps moyen de courses indexé sur 1999", style={"text-align": "center", "color": "#333"}),
             html.Label("Sélectionnez la catégorisation :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "left", "display": "block"}),
             dcc.RadioItems(
                         id='radio-vis1',
@@ -179,7 +179,7 @@ app.layout = html.Div([
         ], style={"flex": "1", "padding": "20px", "align-items": "center","background-color": "#f9f9f9","width": "100%", "border-radius": "10px", "margin-right": "10px"}),
 
         html.Div([
-            html.H3("Visualisation 2", style={"text-align": "center", "color": "#333"}),
+            html.H3("Répartition des nationalités et du sexe pour une plage de temps", style={"text-align": "center", "color": "#333"}),
             dcc.Graph(
                 id="vis2",
                 figure=create_dashboard(),

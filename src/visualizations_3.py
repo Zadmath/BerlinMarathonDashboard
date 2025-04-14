@@ -4,7 +4,7 @@ import numpy as np
 from data import marathon_df, years
 import preprocess
 from layout_vis3 import configure_layout
-
+from preprocess import save_top_10_csvs
 # Fonction pour générer des coordonnées en cercle
 def generate_circle_points(center_x, center_y, count, radius=0.3):
     if center_x == 2019:
