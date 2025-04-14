@@ -57,6 +57,7 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
     # on efface le contenu de la figure
     fig.data = []
     top_10_per_year = preprocess.get_top_10(marathon_df, selected_category_age=selected_category)
+    # print(f"Top 10 per year: {top_10_per_year}")
     # Appliquer le filtre par genre
     if selected_gender == "ALL":
         filtered_df = top_10_per_year
@@ -71,7 +72,7 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
     nations_sorted = filtered_df["nation"].value_counts().index.tolist()
     grouped_by_year = filtered_df.groupby("year")
     filtered_df["unique_key"] = filtered_df["nom"] + "_" + filtered_df["prenom"] + "_" + filtered_df["year"].astype(str)
-    
+    # print(f"Filtered DataFrame: {filtered_df}")
     for year, group in grouped_by_year:
         # Recalculer le classement relatif pour les femmes uniquement
         group["relative_place"] = group["place"]
@@ -81,16 +82,17 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
             group.loc[group["unique_key"] == row["unique_key"], "relative_place"] = i + 1
         if selected_gender == "W":
             group = group[group["gender"] == "W"].sort_values(by="place").reset_index(drop=True)
-            group["relative_place"] = group.index + 1
+            group.loc[:, "relative_place"] = group.index + 1
         # Recalculer le classement relatif pour la catégorie d'âge sélectionnée
         if selected_category != "ALL":
             group = group[group["class_age"] == selected_category].sort_values(by="place").reset_index(drop=True)
-            group["relative_place"] = group.index + 1
+            group.loc[:, "relative_place"] = group.index + 1
         grouped_by_nation = group.groupby("nation")
-
         for nation, nation_group in grouped_by_nation:
             point_number = 0
+            # print(f"Nation: {nation}, Group: {nation_group}")
             for i, row in nation_group.iterrows():
+                # print(f"Row: {row}")
                 #si le genre est autre que M ou W, on ne l'affiche pas
                 if row["gender"] not in ["M", "W"]:
                     continue

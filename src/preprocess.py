@@ -52,3 +52,120 @@ def get_top_10(my_df, selected_category_age="ALL"):
     #on affiche pour l'année 2023
     return top_10_per_year
 
+
+
+def process_data_courreur_viz1(df_courreur):
+    year=list(df_courreur['year'].unique())
+    dict_All_Data={}
+
+    # Chaque data du dictionnaire est de la forme : index = Catégorie , colonne  = Année
+    # Exemple sex:  index =['Femme','Homme'], colonnes=[1999,2001,2002,...,2023]  df['Femme',1999] = tps moyen pour les femmes en 1999 
+    # Par niveaux 
+    
+    df_top10_per_year = df_courreur.groupby('year').apply(lambda x: x.nsmallest(10, 'tps_fin')['tps_fin'].mean()).reset_index()
+    df_top10_per_year.columns = ['year', 'mean_tps_fin']
+    df_top10_per_year=df_top10_per_year.set_index('year')
+    df_top10_per_year=df_top10_per_year.T
+    df_top10_per_year = df_top10_per_year.rename(index={'mean_tps_fin': 'Top 10'})
+
+    df_top25_per_year = df_courreur.groupby('year').apply(lambda x: x.nsmallest(int(len(x) * 0.25), 'tps_fin')['tps_fin'].mean()).reset_index()
+    df_top25_per_year.columns = ['year', 'mean_tps_fin']
+    df_top25_per_year=df_top25_per_year.set_index('year')
+    df_top25_per_year=df_top25_per_year.T
+    df_top25_per_year = df_top25_per_year.rename(index={'mean_tps_fin': ' 0-25%'})
+
+    df_top50_per_year = df_courreur.groupby('year').apply(lambda x: x.nsmallest(int(len(x) * 0.5), 'tps_fin').nlargest(int(len(x)*0.25),'tps_fin')['tps_fin'].mean()).reset_index()
+    df_top50_per_year.columns = ['year', 'mean_tps_fin']
+    df_top50_per_year=df_top50_per_year.set_index('year')
+    df_top50_per_year=df_top50_per_year.T
+    df_top50_per_year = df_top50_per_year.rename(index={'mean_tps_fin': '25-50%'})
+
+    df_top75_per_year = df_courreur.groupby('year').apply(lambda x: x.nsmallest(int(len(x) * 0.75), 'tps_fin').nlargest(int(len(x)*0.25),'tps_fin')['tps_fin'].mean()).reset_index()
+    df_top75_per_year.columns = ['year', 'mean_tps_fin']
+    df_top75_per_year=df_top75_per_year.set_index('year')
+    df_top75_per_year=df_top75_per_year.T
+    df_top75_per_year = df_top75_per_year.rename(index={'mean_tps_fin': '50-75%'})
+
+    df_top100_per_year = df_courreur.groupby('year').apply(lambda x: x.nlargest(int(len(x)*0.25),'tps_fin')['tps_fin'].mean()).reset_index()
+    df_top100_per_year.columns = ['year', 'mean_tps_fin']
+    df_top100_per_year=df_top100_per_year.set_index('year')
+    df_top100_per_year=df_top100_per_year.T
+    df_top100_per_year = df_top100_per_year.rename(index={'mean_tps_fin': '75-100%'})
+
+    dict_All_Data["Par niveaux"]=pd.concat([df_top10_per_year,df_top25_per_year,df_top50_per_year,df_top75_per_year,df_top100_per_year])
+
+    #Par sex
+    data={}
+    df_homme=df_courreur.loc[df_courreur['sex']=='M']
+    df_homme=df_homme.groupby('year')['tps_fin'].mean().reset_index()
+    df_homme.columns = ['year', 'mean_tps_fin']
+    df_homme=df_homme.set_index('year')
+    df_homme=df_homme.T
+    df_homme = df_homme.rename(index={'mean_tps_fin': 'Homme'})
+
+    df_femme=df_courreur.loc[df_courreur['sex']=='W']
+    df_femme=df_femme.groupby('year')['tps_fin'].mean().reset_index()
+    df_femme.columns = ['year', 'mean_tps_fin']
+    df_femme=df_femme.set_index('year')
+    df_femme=df_femme.T
+    df_femme = df_femme.rename(index={'mean_tps_fin': 'Femme'})
+
+    dict_All_Data["Par sex"] = pd.concat([df_femme,df_homme])
+
+    #Par age
+    df_age=df_courreur.groupby('year')[['class_age','tps_fin']]
+    result = pd.DataFrame() 
+    for x,y in df_age:
+        df_year=y.groupby('class_age')['tps_fin'].mean().reset_index()
+       
+        # On renomme la colonne pour qu'elle corresponde à l'année    
+        df_year= df_year.rename(columns={'tps_fin': int(x)})
+        # On utilse class_age comme index 
+        df_tmp = df_year.set_index('class_age')
+
+        # On fusionne tout sur l'index class_age
+        if result.index.names == [None]:
+            result =df_tmp.copy()
+        else:
+            result = pd.merge(result, df_tmp, left_index=True, right_index=True, how='outer')
+    # Résultat : un DataFrame avec class_age en index et les années en colonnes
+    dict_All_Data["Par age"]=result
+
+    #Par age sex
+    df_age=df_courreur.groupby('year')[['class_age','sex','tps_fin']]
+    result_age_sex = pd.DataFrame() 
+    for x,y in df_age:
+        df_year=y.groupby(by=['class_age','sex'])['tps_fin'].mean().reset_index()
+        
+        # On renomme la colonne pour qu'elle corresponde à l'année    
+        df_year= df_year.rename(columns={'tps_fin': int(x)})
+        # On utilse class_age comme index 
+        df_tmp = df_year.set_index(['class_age','sex'])
+        # On fusionne tout sur l'index class_age
+
+        if result_age_sex.index.names == [None]:
+            result_age_sex =df_tmp.copy()
+        else:
+            result_age_sex = pd.merge(result_age_sex, df_tmp, left_index=True, right_index=True, how='outer')
+    # Résultat : un DataFrame avec class_age en index et les années en colonnes
+    dict_All_Data["Par sex-age"]=result_age_sex
+
+
+ 
+    return dict_All_Data
+
+def preprocess_meteo(df_meteo):
+    df_avgTemp=df_meteo.loc[df_meteo['YEAR']>1998][['YEAR','AVG_TEMP_C']]
+    df_avgTemp=df_avgTemp.set_index('YEAR')
+    df_avgTemp=df_avgTemp.T
+    df_avgTemp[2021]=[22.3]
+    df_avgTemp[2022]=[17.4]
+    df_avgTemp[2023]=[18.2]
+
+    df_Preci=df_meteo.loc[df_meteo['YEAR']>1998][['YEAR','PRECIP_mm']]
+    df_Preci=df_Preci.set_index('YEAR')
+    df_Preci=df_Preci.T
+    df_Preci[2021]=[0]
+    df_Preci[2022]=[0]
+    df_Preci[2023]=[0]
+    return df_avgTemp,df_Preci
