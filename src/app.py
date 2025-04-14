@@ -9,7 +9,9 @@
     This file contains the source code for TP4.
 '''
 import json
-
+import sys
+import os
+sys.path.append(os.path.dirname(__file__))
 import dash
 from dash import html, dcc
 from dash.dependencies import Input, Output
