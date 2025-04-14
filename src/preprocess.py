@@ -26,30 +26,26 @@ def get_top_nations(my_df):
     return top_nations
     
 def get_top_10(my_df, selected_category_age="ALL"):
-    top_10_per_year = my_df.copy()
-    
+    # Avoid unnecessary DataFrame copies
     if selected_category_age == "ALL":
         # Group by year and gender, then select the top 10 by "place"
-        top_10_per_year = top_10_per_year.groupby(["year", "gender"], group_keys=False).apply(
+        top_10_per_year = my_df.groupby(["year", "gender"], group_keys=False).apply(
             lambda x: x.nsmallest(10, "place")
         )
     else:
-        # Appliquer le filtre par catégorie d'âge
-        top_10_per_year = top_10_per_year[top_10_per_year["class_age"] == selected_category_age]
-        
-        # Group by year, gender, and category, then select the top 10 by "place"
-        top_10_per_year = top_10_per_year.groupby(["year", "gender", "class_age"], group_keys=False).apply(
+        # Filter by category and group by year, gender, and category
+        filtered_df = my_df[my_df["class_age"] == selected_category_age]
+        top_10_per_year = filtered_df.groupby(["year", "gender", "class_age"], group_keys=False).apply(
             lambda x: x.nsmallest(10, "place")
         )
     
-    # Sélectionner les 10 nationalités les plus fréquentes
+    # Replace other nationalities with "Other" in-place to save memory
     top_nations = get_top_nations(top_10_per_year)
-
-    # Remplacer les autres nationalités par "Other"
-    top_10_per_year["nation"] = top_10_per_year["nation"].apply(lambda x: x if x in top_nations else "Other")
-    # Ensure only 10 runners per year, gender, and category
+    top_10_per_year.loc[:, "nation"] = top_10_per_year["nation"].where(
+        top_10_per_year["nation"].isin(top_nations), "Other"
+    )
+    # Limit to 10 runners per group
     top_10_per_year = top_10_per_year.groupby(["year", "gender", "class_age"], group_keys=False).head(10)
-    #on affiche pour l'année 2023
     return top_10_per_year
 
 

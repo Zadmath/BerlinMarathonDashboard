@@ -86,7 +86,7 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
         # Recalculer le classement relatif pour la catégorie d'âge sélectionnée
         if selected_category != "ALL":
             group = group[group["class_age"] == selected_category].sort_values(by="place").reset_index(drop=True)
-            group.loc[:, "relative_place"] = group.index + 1
+            group.loc[:, "    rela    tive_place"] = group.index + 1
         grouped_by_nation = group.groupby("nation")
         for nation, nation_group in grouped_by_nation:
             point_number = 0
