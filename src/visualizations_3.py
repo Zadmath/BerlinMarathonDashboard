@@ -86,7 +86,7 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
         # Recalculer le classement relatif pour la catégorie d'âge sélectionnée
         if selected_category != "ALL":
             group = group[group["class_age"] == selected_category].sort_values(by="place").reset_index(drop=True)
-            group.loc[:, "    rela    tive_place"] = group.index + 1
+            group.loc[:, "relative_place"] = group.index + 1
         grouped_by_nation = group.groupby("nation")
         for nation, nation_group in grouped_by_nation:
             point_number = 0
@@ -153,17 +153,17 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
         runner_data = filtered_df[filtered_df.apply(
             lambda row: f"{row['nom']} {row['prenom']}" == selected_runner, axis=1
         )]
-        if "tps_fin" in runner_data.columns:
+        if "tps_fin_p" in runner_data.columns:
             times_text = "Temps de course de " + selected_runner + ":<br>   "
             times_text += "   ".join(
-                f"Année {row.year}: {str(pd.to_timedelta(row.tps_fin, unit='s')).split(' ')[2]}" + ("<br>" if i % 2 == 1 else "")  # Ajoute un saut de ligne tous les 2 temps
+                f"Année {row.year}: {str(pd.to_timedelta(row.tps_fin_p, unit='s')).split(' ')[2]}" + ("<br>" if i % 2 == 1 else "")  # Ajoute un saut de ligne tous les 2 temps
                 for i, row in enumerate(runner_data.itertuples())
             )
         else:
             times_text = "Temps non disponible"
     else:
         if selected_gender == "ALL":
-            temps_moyens = filtered_df.groupby("sex")["tps_fin"].mean()
+            temps_moyens = filtered_df.groupby("sex")["tps_fin_p"].mean()
             # Convert to timedelta and round to the nearest minute
             temps_moyens = pd.to_timedelta(temps_moyens, unit='s').round('T')
             times_text = "Temps moyen de course du top 10 par sexe" + (" de catégorie d'âge " + selected_category if selected_category != "ALL" else "") + ":<br>"
@@ -174,7 +174,7 @@ def generate_marathon_chart(selected_gender="ALL", selected_runner=None, selecte
             times_text += f"   Hommes: {temps_homme}<br>"
             times_text += f"   Femmes: {temps_femme}<br>"
         else:
-            temps_moyens = filtered_df["tps_fin"].mean()
+            temps_moyens = filtered_df["tps_fin_p"].mean()
             # Convert to timedelta and round to the nearest minute
             temps_moyens = pd.to_timedelta(temps_moyens, unit='s').round('T')
             temps_moyens = str(temps_moyens).split(" ")[2]
