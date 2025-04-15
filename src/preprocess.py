@@ -66,25 +66,25 @@ def process_data_courreur_viz1(df_courreur):
     df_top25_per_year.columns = ['year', 'mean_tps_fin']
     df_top25_per_year=df_top25_per_year.set_index('year')
     df_top25_per_year=df_top25_per_year.T
-    df_top25_per_year = df_top25_per_year.rename(index={'mean_tps_fin': ' 0-25%'})
+    df_top25_per_year = df_top25_per_year.rename(index={'mean_tps_fin': 'Pros'})
 
     df_top50_per_year = df_courreur.groupby('year').apply(lambda x: x.nsmallest(int(len(x) * 0.5), 'tps_fin').nlargest(int(len(x)*0.25),'tps_fin')['tps_fin'].mean()).reset_index()
     df_top50_per_year.columns = ['year', 'mean_tps_fin']
     df_top50_per_year=df_top50_per_year.set_index('year')
     df_top50_per_year=df_top50_per_year.T
-    df_top50_per_year = df_top50_per_year.rename(index={'mean_tps_fin': '25-50%'})
+    df_top50_per_year = df_top50_per_year.rename(index={'mean_tps_fin': 'Semi-pro'})
 
     df_top75_per_year = df_courreur.groupby('year').apply(lambda x: x.nsmallest(int(len(x) * 0.75), 'tps_fin').nlargest(int(len(x)*0.25),'tps_fin')['tps_fin'].mean()).reset_index()
     df_top75_per_year.columns = ['year', 'mean_tps_fin']
     df_top75_per_year=df_top75_per_year.set_index('year')
     df_top75_per_year=df_top75_per_year.T
-    df_top75_per_year = df_top75_per_year.rename(index={'mean_tps_fin': '50-75%'})
+    df_top75_per_year = df_top75_per_year.rename(index={'mean_tps_fin': 'Passionnés'})
 
     df_top100_per_year = df_courreur.groupby('year').apply(lambda x: x.nlargest(int(len(x)*0.25),'tps_fin')['tps_fin'].mean()).reset_index()
     df_top100_per_year.columns = ['year', 'mean_tps_fin']
     df_top100_per_year=df_top100_per_year.set_index('year')
     df_top100_per_year=df_top100_per_year.T
-    df_top100_per_year = df_top100_per_year.rename(index={'mean_tps_fin': '75-100%'})
+    df_top100_per_year = df_top100_per_year.rename(index={'mean_tps_fin': 'Amateurs'})
 
     dict_All_Data["Par niveaux"]=pd.concat([df_top10_per_year,df_top25_per_year,df_top50_per_year,df_top75_per_year,df_top100_per_year])
 
