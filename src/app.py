@@ -82,76 +82,114 @@ app.layout = html.Div([
             "animation": "fadeInUp 1s"
         }
     ),
-    # Informations sur le marathon
-    html.Div([
-        html.Div([
-            html.H3("AVG FINISH TIME", style={"text-align": "center", "color": "#333", "font-size": "18px"}),
-            html.P(
-                avg_finish_time,
-                style={
-                    "text-align": "center",
-                    "font-size": "40px",
-                    "font-weight": "bold",
-                    "color": "#007BFF",
-                    "margin": "0"
-                }
-            )
-        ], style={"flex": "1", "padding": "20px"}),
-        html.Div([
-            html.H3("TOTAL PARTICIPANTS", style={"text-align": "center", "color": "#333", "font-size": "18px"}),
-            html.P(
-                f"{total_participants:,}",
-                style={
-                    "text-align": "center",
-                    "font-size": "40px",
-                    "font-weight": "bold",
-                    "color": "#007BFF",
-                    "margin": "0"
-                }
-            )
-        ], style={"flex": "1", "padding": "20px"}),
-    ], style={
-        "display": "flex",
-        "flex-direction": "row",
-        "justify-content": "center",
-        "align-items": "center",
-        "background-color": "#f9f9f9",
-        "border-radius": "10px",
-        "padding": "20px",
-        "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        "margin-bottom": "30px",
-        "width": "50%",
-        "margin-left": "auto",
-        "margin-right": "auto"
-    }),
 
-    # Conteneur pour VISUALISATION 1 et VISUALISATION 2 côte à côte
-    html.Div([
-        html.Div([
-            html.H3("Évolution du temps moyen de courses indexé sur 1999", style={"text-align": "center", "color": "#333"}),
-            html.Label("Sélectionnez la catégorisation :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "left", "display": "block"}),
-            dcc.RadioItems(
+    # Onglets pour les visualisations
+    dcc.Tabs([
+        dcc.Tab(label="Temps moyen indexé et météo (Visualisation 1)", children=[
+            html.Div([
+                html.Div([
+                    html.P(
+                        [
+                            html.Span("AVG FINISH TIME (Temps moyen d’arrivée)", style={"font-weight": "bold"}),
+                            html.Br(),
+                            "Temps moyen nécessaire aux participants pour terminer le Marathon de Berlin sur la période 1999–2023.",
+                            html.Br(), html.Br(),
+                            html.Span("TOTAL PARTICIPANTS – Nombre total de participants : 779 564", style={"font-weight": "bold"}),
+                            html.Br(),
+                            "Nombre cumulé de participants sur les 24 éditions entre 1999 et 2023.",
+                            html.Br(), html.Br(),
+                            html.Span("Graphique : Temps moyen indexé", style={"font-weight": "bold"}),
+                            html.Br(),
+                            "- Temps moyen indexé : Chaque courbe représente le temps moyen de course d’un groupe de coureurs (Top 10, Pros, Semi-pro, Passionnés, Amateurs), rapporté à une valeur de référence égale à 1.",
+                            html.Br(),
+                            "- Ligne pointillée (index 1) : Sert de base de comparaison.",
+                            html.Br(),
+                            "  · Une valeur au-dessus de 1 indique un temps moyen plus lent que la moyenne globale.",
+                            html.Br(),
+                            "  · Une valeur en dessous de 1 indique un temps moyen plus rapide que la moyenne globale.",
+                            html.Br(),
+                            "- Comparaison par groupe : Plus une courbe est élevée, plus le groupe correspondant met de temps à finir la course, relativement à la moyenne globale.",
+                            html.Br(),
+                            "- Évolution temporelle : L’axe horizontal indique les années. L’évolution des courbes montre comment la performance relative de chaque groupe a changé au fil du temps.",
+                            html.Br(), html.Br(),
+                            html.Span("Graph de Température en °C", style={"font-weight": "bold"}),
+                            html.Br(),
+                            "La courbe rouge représente l’évolution de la température moyenne relevée le jour du marathon, année par année.",
+                            html.Br(),
+                            "L’axe vertical indique la température en degrés Celsius.",
+                            html.Br(),
+                            "L’axe horizontal représente les années, de 2000 à 2023.",
+                            html.Br(),
+                            "Les variations de la courbe permettent d'observer les fluctuations climatiques au fil du temps.",
+                            html.Br(), html.Br(),
+                            html.Span("Graph de Précipitation en mm", style={"font-weight": "bold"}),
+                            html.Br(),
+                            "Les barres bleues indiquent la quantité de pluie (en millimètres) tombée le jour du marathon.",
+                            html.Br(),
+                            "Plus la barre est haute, plus la journée a été pluvieuse.",
+                            html.Br(),
+                            "L’absence de barre signifie qu’il n’y a pas eu de précipitation cette année-là."
+                        ],
+                        style={"font-size": "16px", "color": "#555", "margin-bottom": "20px", "line-height": "1.6"}
+                    )
+                ], style={"flex": "1", "padding": "20px"}),
+
+                html.Div([
+                    html.H3(
+                        "Évolution du temps moyen de courses indexé sur 1999",
+                        style={
+                            "text-align": "center",
+                            "color": "#333",
+                            "font-size": "24px",
+                            "font-weight": "bold",
+                            "margin-bottom": "20px",
+                            "font-family": "Arial, sans-serif"
+                        }
+                    ),
+                    html.Label(
+                        "Sélectionnez la catégorisation :",
+                        style={
+                            "font-weight": "bold",
+                            "margin-bottom": "10px",
+                            "text-align": "left",
+                            "display": "block",
+                            "font-size": "18px",
+                            "color": "#555",
+                            "font-family": "Arial, sans-serif"
+                        }
+                    ),
+                    dcc.RadioItems(
                         id='radio-vis1',
                         options=[
-                            dict(
-                                label='Par niveaux',
-                                value='Par niveaux'),
-                            dict(
-                                label='Par sex',
-                                value='Par sex'),
-                            dict(
-                                label='Par age',
-                                value='Par age'),
-                            dict(
-                                label='Par age & sex',
-                                value='Par sex-age'),
+                            dict(label='Par niveaux', value='Par niveaux'),
+                            dict(label='Par sex', value='Par sex'),
+                            dict(label='Par age', value='Par age'),
+                            dict(label='Par age & sex', value='Par sex-age'),
                         ],
-                        value='Par niveaux'
+                        value='Par niveaux',
+                        style={
+                            "font-size": "16px",
+                            "color": "#333",
+                            "font-family": "Arial, sans-serif",
+                            "margin-bottom": "20px"
+                        }
                     ),
-                    html.Label("Sélectionnez les catégories d'âges :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "left", "display": "block"}),
+                    html.Label(
+                        "Sélectionnez les catégories d'âges :",
+                        style={
+                            "font-weight": "bold",
+                            "margin-bottom": "10px",
+                            "text-align": "left",
+                            "display": "block",
+                            "font-size": "18px",
+                            "color": "#555",
+                            "font-family": "Arial, sans-serif"
+                        }
+                    ),
                     dcc.Checklist(
                         id='age-checklist',
-                        options=[{"label": "20", "value": "20"},
+                        options=[
+                            {"label": "20", "value": "20"},
                             {"label": "25", "value": "25"},
                             {"label": "30", "value": "30"},
                             {"label": "35", "value": "35"},
@@ -163,138 +201,158 @@ app.layout = html.Div([
                             {"label": "65", "value": "65"},
                             {"label": "70", "value": "70"},
                             {"label": "75", "value": "75"},
-                            {"label": "80", "value": "80"}],
-                        inline=True,  # Afficher les cases à cocher en ligne
-                        value=["30","40"],
-                        style={'margin-bottom': '20px'}
+                            {"label": "80", "value": "80"}
+                        ],
+                        inline=True,
+                        value=["30", "40"],
+                        style={
+                            "font-size": "16px",
+                            "color": "#333",
+                            "font-family": "Arial, sans-serif",
+                            "margin-bottom": "20px"
+                        }
                     ),
-            dcc.Graph(id='vis1',figure=make_viz1_noSelect(dict_All_viz1["Par niveaux"],df_temp,df_preci,1999), 
-                style={
-                        "height": "700px",
-                        "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                        "border-radius": "8px",
-                    }),
-            
-        
-        ], style={"flex": "1", "padding": "20px", "align-items": "center","background-color": "#f9f9f9","width": "100%", "border-radius": "10px", "margin-right": "10px"}),
+                    dcc.Graph(
+                        id='vis1',
+                        figure=make_viz1_noSelect(dict_All_viz1["Par niveaux"], df_temp, df_preci, 1999),
+                        style={
+                            "height": "700px",
+                            "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                            "border-radius": "8px",
+                        }
+                    ),
+                ], style={"flex": "3", "padding": "20px", "background-color": "#f9f9f9", "border-radius": "10px", "margin-left": "20px"})
+            ], style={"display": "flex", "flex-direction": "row"})
+        ]),
 
-        html.Div([
-            html.H3("Répartition des nationalités et du sexe pour une plage de temps", style={"text-align": "center", "color": "#333"}),
-            dcc.Graph(
-                id="vis2",
-                figure=create_dashboard(),
-                style={
-                    "height": "700px",
-                    "box-shadow": "3px 4px 3px rgba(0, 0, 0, 0.1)",
-                    "border-radius": "8px",
-                    "margin": "0 auto"  # Centrer la visualisation horizontalement
-                }
-            )
-        ], style={
-            "flex": "1",
-            "padding": "20px",
-            "background-color": "#f9f9f9",
-            "border-radius": "8px",
-            "margin-left": "5px",
-            "display": "flex",
-            "flex-direction": "column",
-            "width": "100%",
-            "align-items": "center",  # Centrer le contenu verticalement
-            "margin-bottom": "0px"  # Réduire l'espace en dessous
-        }),
-    ], style={"display": "flex", "flex-direction": "row", "width": "100%", "margin-bottom": "10px"}),
+        dcc.Tab(label="Répartition par sexe et nationalité (Visualisation 2)", children=[
+            html.Div([
+                html.Div([
+                    html.P(
+                        "Cette visualisation montre la répartition des nationalités et du sexe des participants "
+                        "pour une plage de temps donnée. Vous pouvez interagir avec les données pour explorer les détails.",
+                        style={"font-size": "16px", "color": "#555", "margin-bottom": "20px"}
+                    )
+                ], style={"flex": "1", "padding": "20px"}),
 
-    # VISUALISATION 3 : Graphique des nationalités du marathon
-    html.Div([
-        html.H3(
-            "Évolution des Nationalités dans le Top 10 du Marathon de Berlin (1999-2023)",
-            style={"text-align": "center", "color": "#333", "margin-bottom": "20px"}
-        ),
-        html.Div([
-            html.Label("Sélectionnez le genre :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "center", "display": "block"}),
-            dcc.Dropdown(
-                id="gender-dropdown",
-                options=[
-                    {"label": "Tous", "value": "ALL"},
-                    {"label": "Hommes", "value": "M"},
-                    {"label": "Femmes", "value": "W"}
-                ],
-                value="ALL",  # Valeur par défaut
-                style={"width": "50%", "margin": "0 auto 20px auto", "box-shadow": "none", "border-radius": "5px"}
-            ),
+                html.Div([
+                    html.H3("Répartition des nationalités et du sexe pour une plage de temps", style={"text-align": "center", "color": "#333"}),
+                    dcc.Graph(
+                        id="vis2",
+                        figure=create_dashboard(),
+                        style={
+                            "height": "1000px",  # Increased height
+                            "width": "100%",  # Make the graph occupy the full width
+                            "box-shadow": "3px 4px 3px rgba(0, 0, 0, 0.1)",
+                            "border-radius": "8px",
+                            "margin": "0 auto"  # Center the graph horizontally
+                        }
+                    )
+                ], style={
+                    "flex": "3",
+                    "padding": "80px",  # Increased padding for better spacing
+                    "background-color": "#f9f9f9",
+                    "border-radius": "10px",
+                    "margin": "0 auto",  # Center the entire box horizontally
+                    "width": "90%",  # Increased width of the box
+                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)"
+                })
+            ], style={"display": "flex", "flex-direction": "row", "justify-content": "center"})
+        ]),
 
-            html.Label("Sélectionnez la catégorie d'âge :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "center", "display": "block"}),
-            dcc.Dropdown(
-                id="category-dropdown",
-                options=[
-                    {"label": "Tous", "value": "ALL"},
-                    {"label": "20", "value": "20"},
-                    {"label": "25", "value": "25"},
-                    {"label": "30", "value": "30"},
-                    {"label": "35", "value": "35"},
-                    {"label": "40", "value": "40"},
-                    {"label": "45", "value": "45"},
-                    {"label": "50", "value": "50"},
-                    {"label": "55", "value": "55"},
-                    {"label": "60", "value": "60"},
-                    {"label": "65", "value": "65"},
-                    {"label": "70", "value": "70"},
-                    {"label": "75", "value": "75"},
-                    {"label": "80", "value": "80"}
-                ],
-                value="ALL",  # Valeur par défaut
-                clearable=False,
-                style={"width": "50%", "margin": "0 auto 20px auto", "box-shadow": "none", "border-radius": "5px"}
-            ),
-        ], style={"text-align": "center"}),
+        dcc.Tab(label="Évolution des nationalités dans le Top 10 (Visualisation 3)", children=[
+            html.Div([
+                html.Div([
+                    html.P(
+                        "Cette visualisation montre l'évolution des nationalités dans le Top 10 du Marathon de Berlin "
+                        "entre 1999 et 2023. Vous pouvez filtrer par genre et catégorie d'âge pour explorer les données.",
+                        style={"font-size": "16px", "color": "#555", "margin-bottom": "20px"}
+                    )
+                ], style={"flex": "1", "padding": "20px"}),
 
-        # Légende centrée
-        html.Div([
-            html.Span("● Hommes", style={"color": "blue", "font-size": "16px", "margin-right": "20px"}),
-            html.Span("● Femmes", style={"color": "red", "font-size": "16px"}),
-        ], style={"margin-bottom": "20px", "text-align": "center"}),
+                html.Div([
+                    html.H3(
+                        "Évolution des Nationalités dans le Top 10 du Marathon de Berlin (1999-2023)",
+                        style={"text-align": "center", "color": "#333", "margin-bottom": "20px"}
+                    ),
+                    html.Div([
+                        html.Label("Sélectionnez le genre :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "center", "display": "block"}),
+                        dcc.Dropdown(
+                            id="gender-dropdown",
+                            options=[
+                                {"label": "Tous", "value": "ALL"},
+                                {"label": "Hommes", "value": "M"},
+                                {"label": "Femmes", "value": "W"}
+                            ],
+                            value="ALL",
+                            style={"width": "50%", "margin": "0 auto 20px auto", "box-shadow": "none", "border-radius": "5px"}
+                        ),
+                        html.Label("Sélectionnez la catégorie d'âge :", style={"font-weight": "bold", "margin-bottom": "5px", "text-align": "center", "display": "block"}),
+                        dcc.Dropdown(
+                            id="category-dropdown",
+                            options=[
+                                {"label": "Tous", "value": "ALL"},
+                                {"label": "20", "value": "20"},
+                                {"label": "25", "value": "25"},
+                                {"label": "30", "value": "30"},
+                                {"label": "35", "value": "35"},
+                                {"label": "40", "value": "40"},
+                                {"label": "45", "value": "45"},
+                                {"label": "50", "value": "50"},
+                                {"label": "55", "value": "55"},
+                                {"label": "60", "value": "60"},
+                                {"label": "65", "value": "65"},
+                                {"label": "70", "value": "70"},
+                                {"label": "75", "value": "75"},
+                                {"label": "80", "value": "80"}
+                            ],
+                            value="ALL",
+                            clearable=False,
+                            style={"width": "50%", "margin": "0 auto 20px auto", "box-shadow": "none", "border-radius": "5px"}
+                        ),
+                    ], style={"text-align": "center"}),
 
-        # Graphique et bouton
-        html.Div([
-            html.Div(id="selected-runner-info", style={"marginTop": "10px", "fontWeight": "bold", "margin-bottom": "10px"}),
-            html.Button(
-                "Désélectionner le coureur",
-                id="deselect-button",
-                n_clicks=0,
-                style={
-                    "margin-bottom": "14px",
-                    "background-color": "#007BFF",
-                    "color": "white",
-                    "border": "none",
-                    "border-radius": "5px",
-                    "padding": "10px 20px",
-                    "cursor": "pointer",
-                    "transition": "background-color 0.3s, transform 0.3s",
-                },
-                className="hover-button"
-            ),
-            dcc.Graph(
-                id="matrix-chart",
-                config={"displayModeBar": True},
-                clear_on_unhover=True,
-                clickData=None,
-                figure=generate_marathon_chart("ALL", None, "ALL"),
-                style={
-                    "height": "70vh",
-                    "width": "100%",
-                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
-                    "border-radius": "8px",
-                }
-            )
-        ], style={"width": "100%", "display": "flex", "flex-direction": "column", "align-items": "center"})
-    ], style={
-        "padding": "20px",
-        "background-color": "#f9f9f9",
-        "border-radius": "10px",
-        "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
-        "margin-bottom": "20px",
-        "width": "100%"
-    })
+                    html.Div([
+                        html.Span("● Hommes", style={"color": "blue", "font-size": "16px", "margin-right": "20px"}),
+                        html.Span("● Femmes", style={"color": "red", "font-size": "16px"}),
+                    ], style={"margin-bottom": "20px", "text-align": "center"}),
+
+                    html.Div([
+                        html.Div(id="selected-runner-info", style={"marginTop": "10px", "fontWeight": "bold", "margin-bottom": "10px"}),
+                        html.Button(
+                            "Désélectionner le coureur",
+                            id="deselect-button",
+                            n_clicks=0,
+                            style={
+                                "margin-bottom": "14px",
+                                "background-color": "#007BFF",
+                                "color": "white",
+                                "border": "none",
+                                "border-radius": "5px",
+                                "padding": "10px 20px",
+                                "cursor": "pointer",
+                                "transition": "background-color 0.3s, transform 0.3s",
+                            },
+                            className="hover-button"
+                        ),
+                        dcc.Graph(
+                            id="matrix-chart",
+                            config={"displayModeBar": True},
+                            clear_on_unhover=True,
+                            clickData=None,
+                            figure=generate_marathon_chart("ALL", None, "ALL"),
+                            style={
+                                "height": "70vh",
+                                "width": "100%",
+                                "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                "border-radius": "8px",
+                            }
+                        )
+                    ], style={"width": "100%", "display": "flex", "flex-direction": "column", "align-items": "center"})
+                ], style={"flex": "3", "padding": "20px", "background-color": "#f9f9f9", "border-radius": "10px", "margin-left": "20px"})
+            ], style={"display": "flex", "flex-direction": "row"})
+        ])
+    ])
 ])
 
 

@@ -144,9 +144,9 @@ def create_dashboard():
         subplot_titles=("Distribution des temps d'arrivée", 
                         "Répartition par sexe", 
                         "Top nationalités"),
-        vertical_spacing=0.20,
-        horizontal_spacing=0.1,
-        row_heights=[0.6, 0.4]
+        vertical_spacing=0.1,  # Reduced spacing for better use of space
+        horizontal_spacing=0.2,
+        row_heights=[0.5, 0.5]  # Increased height for the bottom row
     )
 
     histogram = go.Bar(
@@ -175,22 +175,15 @@ def create_dashboard():
 )
 
     fig.update_layout(
-        height=800,
-        width=1000,
-        title_text="Analyse des temps du Marathon de Berlin (1999-2023)",
-        showlegend=False,
-        hovermode='closest',
-        dragmode='select',
-        selectdirection='h',
-        title_font=dict(size=20),
-        font=dict(family="Arial", size=12),
-        margin=dict(t=100, b=50, l=50, r=50)  
-
+        autosize=True,
+        height=1000,  # Increased overall height for better visualization
+        width=1500,
+        margin=dict(t=50, b=50, l=50, r=50)
     )
 
     fig.update_xaxes(
         title_text="Temps d'arrivée (HH:MM)",
-        tickvals=formatted_time_labels[::5],  # Affiche 1 tick sur 10 par exemple
+        tickvals=formatted_time_labels[::5],  # Adjusted tick frequency
         ticktext=formatted_time_labels[::5],
         row=1, col=1,
         tickangle=45
@@ -226,10 +219,10 @@ def create_dashboard():
 
     # Verrouiller les dimensions des graphiques pour éviter les changements de taille
     fig.update_layout(
-        autosize=False,
-        height=800,
-        width=1000,
-        margin=dict(t=100, b=50, l=50, r=50)  # Maintenir les marges constantes
+        autosize=True,  # Allow the figure to resize dynamically
+        height=900,  # Increased height for better visualization
+        width=1500,  # Increased width for better visualization
+        margin=dict(t=50, b=50, l=50, r=50)  # Adjusted margins for more space
     )
 
     fig.update_xaxes(title_text="Nationalité", tickangle=45, row=2, col=2)
