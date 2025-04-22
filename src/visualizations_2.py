@@ -11,34 +11,30 @@ from data import df, initial_sex_values, initial_nation_counts, time_counts, tim
 
 
 def update_plots(trace, points, selector, fig):
-    # Vérifier si fig est un dictionnaire et le convertir en Figure si nécessaire
+    # Ensure fig is a valid Plotly figure
     if isinstance(fig, dict):
         fig = go.Figure(fig)
 
-    # Vérifier si des points ont été sélectionnés
+    # Check if points are selected
     if not points or not isinstance(points, list) or len(points) == 0:
         return fig
 
-    # Obtenir les intervalles de temps sélectionnés
+    # Get selected time intervals
     selected_times = [time_counts.index[point["pointIndex"]] for point in points]
     if not selected_times:
         return fig
 
-    # Filtrer les coureurs dans cet intervalle de temps
+    # Filter runners based on selected times
     selected_df = df[df['tps_fin_rounded'].isin(selected_times)]
 
-    # Mettre à jour le pie chart (sexe)
+    # Update pie chart (sex distribution)
     sex_counts = selected_df['sex'].value_counts()
-    sex_dict = {'M': 0, 'W': 0}
-    for sex, count in sex_counts.items():
-        if sex in sex_dict:
-            sex_dict[sex] = count
-    sex_values = [sex_dict['M'], sex_dict['W']]
+    sex_values = [sex_counts.get('M', 0), sex_counts.get('W', 0)]
     sex_labels = ["Hommes", "Femmes"]
 
-    # Ajouter un pourcentage au pie chart
+    # Add percentages and hover text for the pie chart
     total = sum(sex_values)
-    percentages = [f"{(v/total*100):.1f}%" if total > 0 else "0%" for v in sex_values]
+    percentages = [f"{(v / total * 100):.1f}%" if total > 0 else "0%" for v in sex_values]
     hover_texts = [f"{l}: {v} ({p})" for l, v, p in zip(sex_labels, sex_values, percentages)]
 
     fig.update_traces(
@@ -49,77 +45,41 @@ def update_plots(trace, points, selector, fig):
         selector=dict(type='pie')
     )
 
-    # Mettre à jour le bar chart (nationalités)
+    # Update bar chart (nationalities)
     nation_counts = selected_df['nation'].value_counts().head(15)
     if nation_counts.empty:
-        # Si aucune donnée n'est disponible, afficher un message par défaut
         fig.update_traces(
             x=["Aucune donnée"],
             y=[0],
             hovertemplate='Aucune donnée disponible<extra></extra>',
-            selector=dict(type='bar', row=2, col=2)
+            selector=dict(name="Top nationalités")
         )
     else:
-        # Mettre à jour les données des nationalités
+        hover_texts = [f"{nation}: {count} coureurs" for nation, count in zip(nation_counts.index, nation_counts.values)]
         fig.update_traces(
             x=nation_counts.index,
             y=nation_counts.values,
-            hovertemplate='%{x}: %{y} coureurs<extra></extra>',
-            selector=lambda trace: trace.customdata and trace.customdata[0] == "nationality"
+            hovertext=hover_texts,
+            hoverinfo='text',
+            marker=dict(color='#22AA99'),
+            selector=dict(name="Top nationalités")
         )
 
-    # Mettre à jour le titre avec le nombre de coureurs sélectionnés
-    selection_count = len(selected_df)
-    formatted_times = [str(td).split('.')[0] for td in selected_times]
-    formatted_times = [time.split(' ')[2] for time in formatted_times]
+    # Format the time range to remove "0 days"
+    formatted_times = [str(td).split(' ')[-1] for td in selected_times]
     time_range = f"{formatted_times[0]} - {formatted_times[-1]}"
 
-    # Supprimer explicitement toutes les annotations existantes
-    fig.layout.annotations = []
-
-    # Ajouter une nouvelle annotation avec une position ajustée
+    # Update annotations
+    selection_count = len(selected_df)
+    fig.layout.annotations = []  # Clear existing annotations
     fig.add_annotation(
         xref="paper", yref="paper",
-        x=0.5, y=1.0,  # Ajustement de la position verticale pour éviter la superposition
+        x=0.5, y=1.0,
         showarrow=False,
         text=f"Sélection: {time_range} - {selection_count} coureurs",
-        bgcolor="white",
-        bordercolor="black",
         font=dict(size=16)
     )
-    
-    # on ajoute les titres du pie chart et du bar chart
-    fig.add_annotation(
-        xref="paper", yref="paper",
-        x=0.15, y=-0.05,
-        showarrow=False,
-        text="Répartition par sexe",
-        font=dict(size=16)
-    )
-    
-    fig.add_annotation(
-        xref="paper", yref="paper",
-        x=0.85, y=0.35,
-        showarrow=False,
-        text="Top nationalités",
-        font=dict(size=16)
-    )
-    
-    # Mettre à jour le titre bar chart de distribution des temps d'arrivée
-    fig.add_annotation(
-        xref="paper", yref="paper",
-        x=0.5, y=1.05,
-        showarrow=False,
-        text="Distribution des temps d'arrivée",
-        font=dict(size=16)
-    )
-        # Verrouiller les dimensions des graphiques pour éviter les changements de taille
-    fig.update_layout(
-        autosize=False,
-        height=800,
-        width=1000,
-        margin=dict(t=100, b=50, l=50, r=50)  # Maintenir les marges constantes
-    )
+
     return fig
 
 def create_dashboard():
@@ -146,7 +106,7 @@ def create_dashboard():
                         "Top nationalités"),
         vertical_spacing=0.1,  # Reduced spacing for better use of space
         horizontal_spacing=0.2,
-        row_heights=[0.5, 0.5]  # Increased height for the bottom row
+        row_heights=[0.7, 0.3]  # Increased height for the bottom row
     )
 
     histogram = go.Bar(
@@ -198,19 +158,28 @@ def create_dashboard():
         textinfo='percent+label',
         hole=0.2,
     ), row=2, col=1)
-
+    fig.update_layout(
+        autosize=True,
+        height=1000,  # Increased overall height for better visualization
+        width=1500,
+        margin=dict(t=50, b=50, l=50, r=50),
+        dragmode="select",  # Enable selection mode
+        selectdirection="h",  # Restrict selection to horizontal direction
+        hovermode="closest"
+    )
     fig.add_trace(go.Bar(
         x=initial_nation_counts.index,
         y=initial_nation_counts.values,
-        name="Top nationalités",
+        name="Top nationalités",  # Use name for identification
         marker_color='#22AA99',
         textposition='auto',
+        hovertemplate='%{x}: %{y} coureurs<extra></extra>',
         customdata=["nationality"] * len(initial_nation_counts)  # Ajout clé
     ), row=2, col=2)
 
     # Désactiver la sélection sur le graphique des nationalités
     fig.update_traces(
-        selector=dict(type='bar', row=2, col=2),
+        selector=dict(name="Top nationalités"),
         marker=dict(opacity=0.8),
         hoverinfo='x+y',
         selectedpoints=None  # Désactiver la sélection
