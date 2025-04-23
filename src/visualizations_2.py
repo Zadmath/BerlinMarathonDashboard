@@ -138,7 +138,11 @@ def create_dashboard():
         autosize=True,
         height=1000,  # Increased overall height for better visualization
         width=1500,
-        margin=dict(t=50, b=50, l=50, r=50)
+        margin=dict(t=50, b=50, l=50, r=50),
+        dragmode="select",  # Enable selection mode
+        selectdirection="h",  # Restrict selection to horizontal direction
+        hovermode="closest",
+        showlegend=False  # Remove the legend
     )
 
     fig.update_xaxes(

@@ -221,9 +221,40 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     html.P(
-                        "Cette visualisation montre la répartition des nationalités et du sexe des participants "
-                        "pour une plage de temps donnée. Vous pouvez interagir avec les données pour explorer les détails.",
-                        style={"font-size": "16px", "color": "#555", "margin-bottom": "20px"}
+                        [
+                            html.Span("Visualisation 2 : Répartition par sexe et nationalité", style={"font-weight": "bold", "font-size": "18px", "color": "#333"}),
+                            html.Br(), html.Br(),
+                            html.Span("Cette visualisation vous permet de ", style={"color": "#555"}),
+                            html.Span("sélectionner une plage de temps ", style={"font-weight": "bold", "color": "#007BFF"}),
+                            html.Span("dans l'histogramme des temps de course pour explorer :", style={"color": "#555"}),
+                            html.Br(),
+                            html.Span("1. ", style={"font-weight": "bold", "color": "#FF6347"}), 
+                            "La proportion d'hommes et de femmes ayant participé dans cette plage de temps.",
+                            html.Br(),
+                            html.Span("2. ", style={"font-weight": "bold", "color": "#22AA99"}), 
+                            "Les nationalités les plus représentées dans cette plage de temps.",
+                            html.Br(), html.Br(),
+                            html.Span("Insights clés : ", style={"font-weight": "bold", "font-size": "16px", "color": "#333"}),
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            "Une majorité des meilleurs temps sont réalisés par des ",
+                            html.Span("coureurs d'Afrique de l'Est", style={"font-weight": "bold", "color": "#FF6347"}),
+                            html.Span(".", style={"color": "#555"}),
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            html.Span("Les hommes dominent généralement les meilleures performances.", style={"color": "#555"}),
+                            html.Br(), html.Br(),
+                        ],
+                        style={
+                            "font-size": "16px",
+                            "color": "#555",
+                            "margin-bottom": "20px",
+                            "line-height": "1.6",
+                            "background-color": "#f9f9f9",
+                            "padding": "15px",
+                            "border-radius": "8px",
+                            "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)"
+                        }
                     )
                 ], style={"flex": "1", "padding": "20px"}),
 
@@ -256,11 +287,55 @@ app.layout = html.Div([
             html.Div([
                 html.Div([
                     html.P(
-                        "Cette visualisation montre l'évolution des nationalités dans le Top 10 du Marathon de Berlin "
-                        "entre 1999 et 2023. Vous pouvez filtrer par genre et catégorie d'âge pour explorer les données.",
-                        style={"font-size": "16px", "color": "#555", "margin-bottom": "20px"}
+                        [
+                            html.Span("Visualisation 3 : Évolution des nationalités dans le Top 10", style={"font-weight": "bold", "font-size": "18px", "color": "#333"}),
+                            html.Br(), html.Br(),
+                            html.Span("Cette visualisation met en lumière ", style={"color": "#555"}),
+                            html.Span("l'évolution des nationalités ", style={"font-weight": "bold", "color": "#007BFF"}),
+                            html.Span("dans le Top 10 du Marathon de Berlin, en fonction du genre et de la catégorie d'âge :", style={"color": "#555"}),
+                            html.Br(),
+                            html.Span("1. ", style={"font-weight": "bold", "color": "#FF6347"}), 
+                            "Le Kenya domine largement le Top 10, avec des performances exceptionnelles.",
+                            html.Br(),
+                            html.Span("2. ", style={"font-weight": "bold", "color": "#22AA99"}), 
+                            "L'Éthiopie a réalisé une percée significative, notamment chez les femmes.",
+                            html.Br(),
+                            html.Span("3. ", style={"font-weight": "bold", "color": "#007BFF"}), 
+                            "Les catégories plus âgées sont souvent dominées par des coureurs allemands, bénéficiant de l'avantage d'être à domicile.",
+                            html.Br(), html.Br(),
+                            html.Span("Insights clés : ", style={"font-weight": "bold", "font-size": "16px", "color": "#333"}),
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            "Les performances des coureurs d'Afrique de l'Est restent inégalées dans les catégories élites.",
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            html.Span("Les coureurs locaux dominent les catégories d'âge plus avancé, montrant une forte participation allemande.", style={"color": "#555"}),
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            "Cliquez sur le point représentant ", 
+                            html.Span("Eliud Kipchoge", style={"font-weight": "bold", "color": "#FF6347"}), 
+                            " pour observer sa domination depuis 2013.",
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            "En sélectionnant la catégorie ", 
+                            html.Span("femme", style={"font-weight": "bold", "color": "#22AA99"}), 
+                            ", cliquez sur ", 
+                            html.Span("Assefa Tigst", style={"font-weight": "bold", "color": "#FF6347"}), 
+                            " pour découvrir la nouvelle recordwoman.",
+                            html.Br(), html.Br(),
+                        ],
+                        style={
+                            "font-size": "16px",
+                            "color": "#555",
+                            "margin-bottom": "20px",
+                            "line-height": "1.6",
+                            "background-color": "#f9f9f9",
+                            "padding": "15px",
+                            "border-radius": "8px",
+                            "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)"
+                        }
                     )
-                ], style={"flex": "1", "padding": "20px"}),
+                ], style={"flex": "1", "padding": "20px"}),  # Reduced flex ratio for the text
 
                 html.Div([
                     html.H3(
@@ -341,7 +416,7 @@ app.layout = html.Div([
                             }
                         )
                     ], style={"width": "100%", "display": "flex", "flex-direction": "column", "align-items": "center"})
-                ], style={"flex": "3", "padding": "20px", "background-color": "#f9f9f9", "border-radius": "10px", "margin-left": "20px"})
+                ], style={"flex": "4", "padding": "20px", "background-color": "#f9f9f9", "border-radius": "10px", "margin-left": "20px"})  # Increased flex ratio for the visualization
             ], style={"display": "flex", "flex-direction": "row"})
         ])
     ])
