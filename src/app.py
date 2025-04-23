@@ -288,8 +288,27 @@ app.layout = html.Div([
                 html.Div([
                     html.P(
                         [
-                            html.Span("Visualisation 3 : Évolution des nationalités dans le Top 10", style={"font-weight": "bold", "font-size": "18px", "color": "#333"}),
-                            html.Br(), html.Br(),
+                            # html.Span("Visualisation 3 : Évolution des nationalités dans le Top 10", style={"font-weight": "bold", "font-size": "18px", "color": "#333"}), #pour centrer il faut ajouter un div 
+                            #le titre en centré :
+                            html.Div("Visualisation 3 : Évolution des nationalités dans le Top 10", style={"text-align": "center", "font-size": "18px", "font-weight": "bold", "color": "#333"}),
+                            html.Br(),
+                            html.Div(
+                                "Sélectionnez un point correspondant à un coureur pour voir tous ses temps et mettre en surbrillance les autres points correspondant à ce même coureur.",
+                                style={
+                                    "font-size": "15px",
+                                    "font-weight": "bold",
+                                    "color": "#007BFF",  # Softer color
+                                    "text-align": "center",
+                                    "background-color": "#F9F9F9",
+                                    "padding": "15px",
+                                    "border-radius": "10px",
+                                    "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)",
+                                    "margin-top": "10px",
+                                    "margin-bottom": "10px",
+                                    "line-height": "1.8",
+                                }
+                            ),
+                            html.Br(),
                             html.Span("Cette visualisation met en lumière ", style={"color": "#555"}),
                             html.Span("l'évolution des nationalités ", style={"font-weight": "bold", "color": "#007BFF"}),
                             html.Span("dans le Top 10 du Marathon de Berlin, en fonction du genre et de la catégorie d'âge :", style={"color": "#555"}),
