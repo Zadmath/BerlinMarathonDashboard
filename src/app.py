@@ -288,8 +288,6 @@ app.layout = html.Div([
                 html.Div([
                     html.P(
                         [
-                            # html.Span("Visualisation 3 : Évolution des nationalités dans le Top 10", style={"font-weight": "bold", "font-size": "18px", "color": "#333"}), #pour centrer il faut ajouter un div 
-                            #le titre en centré :
                             html.Div("Visualisation 3 : Évolution des nationalités dans le Top 10", style={"text-align": "center", "font-size": "18px", "font-weight": "bold", "color": "#333"}),
                             html.Br(),
                             html.Div(
@@ -297,7 +295,7 @@ app.layout = html.Div([
                                 style={
                                     "font-size": "15px",
                                     "font-weight": "bold",
-                                    "color": "#007BFF",  # Softer color
+                                    "color": "#007BFF",
                                     "text-align": "center",
                                     "background-color": "#F9F9F9",
                                     "padding": "15px",
@@ -342,6 +340,80 @@ app.layout = html.Div([
                             html.Span("Assefa Tigst", style={"font-weight": "bold", "color": "#FF6347"}), 
                             " pour découvrir la nouvelle recordwoman.",
                             html.Br(), html.Br(),
+                            html.Span("Plusieurs Infos sur les athlètes :", style={"font-weight": "bold", "font-size": "16px", "color": "#333", "margin-bottom": "10px"}),
+                            html.Div([
+                                html.Button(
+                                    "Eliud Kipchoge (Recordman)",
+                                    id="btn-kipchoge",
+                                    n_clicks=0,
+                                    style={
+                                        "width": "100%",
+                                        "margin-bottom": "10px",
+                                        "background-color": "rgba(128, 128, 128, 0.2)",  # Transparent gray
+                                        "color": "#333",
+                                        "border": "1px solid #ccc",
+                                        "border-radius": "5px",
+                                        "padding": "10px",
+                                        "cursor": "pointer",
+                                        "font-size": "14px",
+                                    }
+                                ),
+                                html.Div(id="fact-kipchoge", style={"display": "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}),
+
+                                html.Button(
+                                    "Assefa Tigst (Recordwoman)",
+                                    id="btn-tigst",
+                                    n_clicks=0,
+                                    style={
+                                        "width": "100%",
+                                        "margin-bottom": "10px",
+                                        "background-color": "rgba(128, 128, 128, 0.2)",  # Transparent gray
+                                        "color": "#333",
+                                        "border": "1px solid #ccc",
+                                        "border-radius": "5px",
+                                        "padding": "10px",
+                                        "cursor": "pointer",
+                                        "font-size": "14px",
+                                    }
+                                ),
+                                html.Div(id="fact-tigst", style={"display": "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}),
+
+                                html.Button(
+                                    "Haile Gebrselassie (Légende)",
+                                    id="btn-gebrselassie",
+                                    n_clicks=0,
+                                    style={
+                                        "width": "100%",
+                                        "margin-bottom": "10px",
+                                        "background-color": "rgba(128, 128, 128, 0.2)",  # Transparent gray
+                                        "color": "#333",
+                                        "border": "1px solid #ccc",
+                                        "border-radius": "5px",
+                                        "padding": "10px",
+                                        "cursor": "pointer",
+                                        "font-size": "14px",
+                                    }
+                                ),
+                                html.Div(id="fact-gebrselassie", style={"display": "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}),
+
+                                html.Button(
+                                    "Naoko Takahashi (Première femme sous 2h20)",
+                                    id="btn-takahashi",
+                                    n_clicks=0,
+                                    style={
+                                        "width": "100%",
+                                        "margin-bottom": "10px",
+                                        "background-color": "rgba(128, 128, 128, 0.2)",  # Transparent gray
+                                        "color": "#333",
+                                        "border": "1px solid #ccc",
+                                        "border-radius": "5px",
+                                        "padding": "10px",
+                                        "cursor": "pointer",
+                                        "font-size": "14px",
+                                    }
+                                ),
+                                html.Div(id="fact-takahashi", style={"display": "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}),
+                            ], style={"margin-top": "10px"}),
                         ],
                         style={
                             "font-size": "16px",
@@ -503,3 +575,68 @@ def deselect_runner(n_clicks):
     if n_clicks > 0:
         return None
     return dash.no_update
+
+# --- CALLBACKS POUR LES FUN FACTS ---
+@app.callback(
+    Output("fact-kipchoge", "style"),
+    Input("btn-kipchoge", "n_clicks"),
+    prevent_initial_call=True
+)
+def toggle_fact_kipchoge(n_clicks):
+    return {"display": "block" if n_clicks % 2 == 1 else "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}
+
+@app.callback(
+    Output("fact-kipchoge", "children"),
+    Input("btn-kipchoge", "n_clicks"),
+    prevent_initial_call=True
+)
+def display_fact_kipchoge(n_clicks):
+    return "Eliud Kipchoge détient le record du monde avec un temps de 2:01:09 établi en 2018."
+
+@app.callback(
+    Output("fact-tigst", "style"),
+    Input("btn-tigst", "n_clicks"),
+    prevent_initial_call=True
+)
+def toggle_fact_tigst(n_clicks):
+    return {"display": "block" if n_clicks % 2 == 1 else "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}
+
+@app.callback(
+    Output("fact-tigst", "children"),
+    Input("btn-tigst", "n_clicks"),
+    prevent_initial_call=True
+)
+def display_fact_tigst(n_clicks):
+    return "Assefa Tigst a établi un nouveau record féminin en 2023 avec un temps de 2:11:53."
+
+@app.callback(
+    Output("fact-gebrselassie", "style"),
+    Input("btn-gebrselassie", "n_clicks"),
+    prevent_initial_call=True
+)
+def toggle_fact_gebrselassie(n_clicks):
+    return {"display": "block" if n_clicks % 2 == 1 else "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}
+
+@app.callback(
+    Output("fact-gebrselassie", "children"),
+    Input("btn-gebrselassie", "n_clicks"),
+    prevent_initial_call=True
+)
+def display_fact_gebrselassie(n_clicks):
+    return "Haile Gebrselassie a remporté le Marathon de Berlin à plusieurs reprises et a battu deux records du monde."
+
+@app.callback(
+    Output("fact-takahashi", "style"),
+    Input("btn-takahashi", "n_clicks"),
+    prevent_initial_call=True
+)
+def toggle_fact_takahashi(n_clicks):
+    return {"display": "block" if n_clicks % 2 == 1 else "none", "margin-bottom": "10px", "font-size": "14px", "color": "#555"}
+
+@app.callback(
+    Output("fact-takahashi", "children"),
+    Input("btn-takahashi", "n_clicks"),
+    prevent_initial_call=True
+)
+def display_fact_takahashi(n_clicks):
+    return "Naoko Takahashi est devenue la première femme à courir un marathon en moins de 2h20 en 2001."
