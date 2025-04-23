@@ -264,23 +264,23 @@ app.layout = html.Div([
                         id="vis2",
                         figure=create_dashboard(),
                         style={
-                            "height": "1000px",  # Increased height
-                            "width": "100%",  # Make the graph occupy the full width
+                            "height": "800px",  # Increased height
+                            "width": "110%",  # Make the graph occupy the full width
                             "box-shadow": "3px 4px 3px rgba(0, 0, 0, 0.1)",
                             "border-radius": "8px",
                             "margin": "0 auto"  # Center the graph horizontally
                         }
                     )
                 ], style={
-                    "flex": "3",
+                    "flex": "1",
                     "padding": "80px",  # Increased padding for better spacing
                     "background-color": "#f9f9f9",
                     "border-radius": "10px",
                     "margin": "0 auto",  # Center the entire box horizontally
-                    "width": "90%",  # Increased width of the box
+                    "width": "100%",  # Increased width of the box
                     "box-shadow": "0px 4px 6px rgba(0, 0, 0, 0.1)"
                 })
-            ], style={"display": "flex", "flex-direction": "row", "justify-content": "center"})
+            ], style={"display": "flex", "flex-direction": "row", "justify-content": "left"})
         ]),
 
         dcc.Tab(label="Évolution des nationalités dans le Top 10 (Visualisation 3)", children=[

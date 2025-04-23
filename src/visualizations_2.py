@@ -193,9 +193,9 @@ def create_dashboard():
     # Verrouiller les dimensions des graphiques pour éviter les changements de taille
     fig.update_layout(
         autosize=True,  # Allow the figure to resize dynamically
-        height=900,  # Increased height for better visualization
-        width=1500,  # Increased width for better visualization
-        margin=dict(t=50, b=50, l=50, r=50)  # Adjusted margins for more space
+        height=800,  # Increased height for better visualization
+        width=1300,  # Increased width for better visualization
+        margin=dict(t=50, b=50, l=0, r=50)  # Adjusted margins for more space
     )
 
     fig.update_xaxes(title_text="Nationalité", tickangle=45, row=2, col=2)
