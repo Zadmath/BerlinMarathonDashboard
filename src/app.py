@@ -73,7 +73,7 @@ app.layout = html.Div([
     # Phrase explicative
     html.P(
         "Le marathon de Berlin est un grand marathon européen. Au fil des éditions, les courreurs sont devenus plus meilleurs et plus nombreux.\n"
-        "Mais comment se comparent les courreurs face à la température ou la pluie. L'impact de ces facteurs, est-il le même pour tout le monde?\n" 
+        "Mais comment se comparent les courreurs face à la température ou la pluie. L'impact de ces facteurs, est-il le même pour tout le monde?\n"
         "Explorez ces données à travers des visualisations interactives. "
         "Sélectionnez des plages de temps, des catégories ou des genres pour analyser les performances des coureurs.",
         style={
