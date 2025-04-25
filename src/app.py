@@ -72,7 +72,9 @@ app.layout = html.Div([
 
     # Phrase explicative
     html.P(
-        "Explorez les données du Marathon de Berlin (1999-2023) à travers des visualisations interactives. "
+        "Le marathon de Berlin est un grand marathon européen. Au fil des éditions, les courreurs sont devenus plus meilleurs et plus nombreux."
+        "Mais comment se comparent les courreurs face à la température ou la pluie. L'impact de ces facteurs, est-il le même pour tout le monde?" 
+        "Explorez ces données à travers des visualisations interactives. "
         "Sélectionnez des plages de temps, des catégories ou des genres pour analyser les performances des coureurs.",
         style={
             "text-align": "center",
@@ -116,6 +118,12 @@ app.layout = html.Div([
                             html.Br(),
                             html.Span("· ", style={"color": "#555"}), 
                             "Le nombre de courreurs augmentent fortement avec le temps ce qui explique pourquoi les coureurs amateurs et passionnées ont un temps beaucoup plus elevé.",
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            "Pour les années 2006 et 2021 un pic plus élevé pour les temps de courses qui pourrait s'expliquer par les fortes chaleurs de ces années. Le pic de 2021 est plus faibles pour les sportifs de haut niveaux.",
+                            html.Br(),
+                            html.Span("· ", style={"color": "#555"}), 
+                            "L'impact de la température et de la pluie est le même pour tout le monde en regardant le sexe et l'âge mais pour les sportifs de haut niveaux l'impact est moins grand.",
                             html.Br(), html.Br(),
 
                         ],
